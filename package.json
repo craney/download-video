@@ -1,0 +1,26 @@
+{
+  "name": "watermark-remover",
+  "version": "1.0.0",
+  "description": "去水印视频下载网站",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
+  },
+  "keywords": [
+    "watermark",
+    "video",
+    "download",
+    "douyin"
+  ],
+  "author": "Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.35.0",
+    "vite": "^4.0.0"
+  }
+}

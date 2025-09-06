@@ -1,0 +1,51 @@
+/* 主样式文件 */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.img-fluid {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.form-control[readonly] {
+    background-color: #f8f9fa;
+}
+
+.alert {
+    border-radius: 0.375rem;
+}
+
+.spinner-border {
+    margin-right: 0.5rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .img-fluid {
+        max-height: 200px;
+    }
+}

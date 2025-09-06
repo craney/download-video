@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN" referrerpolicy="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去水印视频下载</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <meta name="referrer" content="no-referrer">
+  <script type="module" crossorigin src="/assets/main-3d7e8d22.js"></script>
+  <link rel="stylesheet" href="/assets/index-df35da16.css">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#" referrerpolicy="no-referrer">去水印视频下载</a>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">视频解析</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="login-form" v-if="!isLoggedIn">
+                                <h5 class="card-title">用户登录</h5>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">用户名</label>
+                                    <input type="text" class="form-control" id="username" v-model="username" placeholder="请输入用户名">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">密码</label>
+                                    <input type="password" class="form-control" id="password" v-model="password" placeholder="请输入密码">
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" @click="login">登录</button>
+                                </div>
+                            </div>
+
+                            <div id="video-parser" v-if="isLoggedIn">
+                                <div class="mb-3">
+                                    <label for="video-url" class="form-label">粘贴分享链接</label>
+                                    <textarea class="form-control" id="video-url" rows="4" v-model="videoText" 
+                                        placeholder="请在此粘贴包含视频链接的分享文本，例如：&#10;4.35 03/25 t@E.Ul tEh:/ 比亚迪车主的福音来了... https://v.douyin.com/ys9FzK6zoRI/"></textarea>
+                                </div>
+                                <div class="d-grid mb-4">
+                                    <button class="btn btn-primary" @click="parseVideo" :disabled="isLoading">
+                                        <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        {{ isLoading ? '解析中...' : '开始解析' }}
+                                    </button>
+                                </div>
+
+                                <div v-if="videoData" class="mt-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">解析结果</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">视频封面</label>
+                                                <div class="text-center">
+                                                    <img :src="videoData.cover" class="img-fluid" alt="视频封面" referrerpolicy="no-referrer">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">视频标题</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" :value="videoData.title" readonly>
+                                                    <button class="btn btn-outline-secondary" @click="copyText(videoData.title)">复制</button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">无水印地址</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" :value="videoData.url" readonly>
+                                                    <button class="btn btn-outline-secondary" @click="copyText(videoData.url)">复制</button>
+                                                    <button class="btn btn-success" @click="downloadVideo">下载</button>
+                                                </div>
+                                                <div class="alert alert-warning mt-2">
+                                                    <h6 class="alert-heading">下载说明</h6>
+                                                    <p class="mb-1"><strong>自动下载：</strong>点击"下载"按钮尝试自动下载视频</p>
+                                                    <p class="mb-1"><strong>手动下载步骤：</strong></p>
+                                                    <ol class="mb-1">
+                                                        <li>点击"复制"按钮复制无水印地址</li>
+                                                        <li>打开新的浏览器窗口/标签页</li>
+                                                        <li>粘贴地址并访问</li>
+                                                        <li>在视频播放页面右键点击视频</li>
+                                                        <li>选择"另存为"或"保存视频"选项</li>
+                                                        <li>选择保存位置并保存文件</li>
+                                                    </ol>
+                                                    <p class="mb-0"><strong>注意：</strong>由于平台防盗链保护机制，自动下载可能无法正常工作，推荐使用手动下载方式。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div v-if="error" class="alert alert-danger mt-3">
+                                    {{ error }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+</body>
+</html>
