@@ -2,9 +2,27 @@
 const { test, expect } = require('@playwright/test');
 
 // 由于实际的下载功能涉及浏览器安全限制和跨域问题，我们主要测试下载功能的触发逻辑
+
+test.beforeAll(async ({ browserType, playwright }) => {
+  const launchOptions = {
+    args: [
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins',
+      '--disable-site-isolation-trials',
+      '--ignore-certificate-errors'
+    ]
+  };
+  // 重新启动浏览器实例以应用新的启动参数
+  const newBrowser = await playwright[browserType].launch(launchOptions);
+  // 将配置后的浏览器实例传递给测试用例
+  // 注意：实际使用中需要更复杂的配置管理
+});
+
 test('下载功能核心逻辑测试', async ({ page }) => {
   // 模拟页面环境
-  await page.goto('http://localhost:8000');
+  await page.goto('http://localhost:8000', { waitUntil: 'domcontentloaded', timeout: 10000 });
+  
+  // 设置登录状态
   await page.evaluate(() => {
     // 模拟Vue应用的登录状态
     localStorage.setItem('isLoggedIn', 'true');
@@ -12,7 +30,7 @@ test('下载功能核心逻辑测试', async ({ page }) => {
   });
   
   // 等待页面加载
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
   
   // 模拟视频数据
   await page.evaluate(() => {
@@ -56,4 +74,10 @@ test('下载功能核心逻辑测试', async ({ page }) => {
   // 注意：由于Playwright的限制，我们无法完全模拟实际下载过程
   // 但可以验证点击事件是否正确触发了下载函数
   console.log('下载功能测试完成');
+  
+  // 增加显式的等待时间以确保所有异步操作完成
+  await page.waitForTimeout(2000);
+  
+  // 验证下载标志被设置
+  expect(downloadClicked).toBe(true);
 });
