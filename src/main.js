@@ -4,7 +4,7 @@
 
 // 导入工具函数
 import { extractUrls, extractFirstUrl } from './utils/urlExtractor.js';
-import { parseVideoUrl } from './services/videoService.js';
+import { parseVideoUrlNew as parseVideoUrl } from './services/videoService.js';
 import { copyToClipboard } from './utils/clipboard.js';
 import { downloadVideo } from './utils/downloader.js';
 
